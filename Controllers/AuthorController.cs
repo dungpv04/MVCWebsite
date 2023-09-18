@@ -1,4 +1,5 @@
-﻿using MVCDemoService;
+﻿using DemoMvc.Models;
+using MVCDemoService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,10 @@ namespace MVCWebsite.Controllers
         {
             var result = bookService.SearchAuthor();
             return View(result);
+        }
+        public ActionResult Create()
+        {
+            return View(new AuthorViewModel());
         }
     }
 }
