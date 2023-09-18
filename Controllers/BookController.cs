@@ -11,11 +11,11 @@ namespace DemoMvc.Controllers
     public class BookController : Controller
     {
         // GET: Book
-        private BookService bookService;
+        private IBookService bookService;
         private IEnumerable<SelectListItem> authors;
-        public BookController()
+        public BookController(IBookService _bookService)
         {
-            bookService = new BookService();
+            bookService = _bookService;
             authors = bookService.GetAuthors();
         }
         public ActionResult Index()

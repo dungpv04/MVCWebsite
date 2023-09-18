@@ -11,11 +11,12 @@ namespace MVCWebsite.Controllers
     public class AuthorController : Controller
     {
         // GET: Author
-        private BookService bookService;
+        private IBookService bookService;
         private IEnumerable<SelectListItem> authors;
-        public AuthorController()
+        public AuthorController (IBookService _bookService)
         {
-            bookService = new BookService();
+            bookService = _bookService;
+            authors = bookService.GetAuthors();
         }
         public ActionResult Index()
         {

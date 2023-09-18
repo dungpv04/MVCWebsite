@@ -1,6 +1,7 @@
 ﻿using DemoMvc;
 using DemoMvc.Models;
 using MVCWebsite;
+using MVCWebsite.Desgin_Parttern;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -8,14 +9,14 @@ using System.Xml.Linq;
 
 namespace MVCDemoService
 {
-    public class BookService
+    public class BookService:IBookService
     {
-        private BookEntities bookEntities;
+        private IBookEntities bookEntities;
         
 
-        public BookService()
+        public BookService(IBookEntities _bookEntities)
         {
-            bookEntities = new BookEntities();
+            bookEntities = _bookEntities;
         }
 
         public bool AddBook(BookViewModel book)

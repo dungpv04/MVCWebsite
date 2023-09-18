@@ -9,11 +9,12 @@
 
 namespace MVCWebsite
 {
+    using MVCWebsite.Desgin_Parttern;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BookEntities : DbContext
+    public partial class BookEntities : DbContext, IBookEntities
     {
         public BookEntities()
             : base("name=BookEntities")
@@ -27,7 +28,5 @@ namespace MVCWebsite
     
         public virtual DbSet<Author> Author { get; set; }
         public virtual DbSet<Book> Book { get; set; }
-
-        public System.Data.Entity.DbSet<DemoMvc.Models.AuthorViewModel> AuthorViewModels { get; set; }
     }
 }
