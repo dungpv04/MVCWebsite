@@ -44,5 +44,11 @@ namespace MVCWebsite.Controllers
             var result = authorService.SearchAuthor();
             return View("Index",result);
         }
+        public ActionResult Delete(int id)
+        {
+            authorService.DeleteAuthor(id);
+            var result = authorService.SearchAuthor();
+            return View("Index", result);
+        }
     }
 }
