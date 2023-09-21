@@ -28,5 +28,9 @@ namespace MVCWebsite
     
         public virtual DbSet<Author> Author { get; set; }
         public virtual DbSet<Book> Book { get; set; }
+
+        public System.Data.Entity.DbSet<DemoMvc.Models.AuthorViewModel> AuthorViewModels { get; set; }
+
+        //public System.Data.Entity.DbSet<DemoMvc.Models.AuthorViewModel> AuthorViewModels { get; set; }
     }
 }

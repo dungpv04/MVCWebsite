@@ -11,13 +11,22 @@ namespace DemoMvc.Models
 {
     public class BookViewModel
     {
+        [DisplayName("ID sách")]
         public int Id { get; set; }
+
+        [DisplayName("Tên sách")]
+        [Required]
         public string Name { get; set; }
+
+        [DisplayName("Nội dung")]
         public string Content { get; set; }
+
+        [DisplayName("ID tác giả")]
+        public int? AuthorId { get; set; }
         [DisplayName("Tên tác giả")]
         [Required]
-        public int? AuthorId { get; set; }
         public string AuthorName { get; set; }
+        
         public IEnumerable<SelectListItem> Authors { get; set; }
     }
 }

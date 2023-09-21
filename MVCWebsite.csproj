@@ -316,7 +316,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthorService.cs" />
     <Compile Include="Models\AuthorViewModel.cs" />
+    <Compile Include="Models\IAuthorService.cs" />
     <Compile Include="Models\IBookService.cs" />
     <Compile Include="Models\BookService.cs" />
     <Compile Include="Models\BookViewModel.cs" />
@@ -394,6 +396,8 @@
     <Content Include="Views\Book\Edit.cshtml" />
     <Content Include="Views\Book\Index.cshtml" />
     <Content Include="Views\Author\Index.cshtml" />
+    <Content Include="Views\Author\Create.cshtml" />
+    <Content Include="Views\Author\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

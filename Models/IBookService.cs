@@ -30,15 +30,7 @@ namespace MVCDemoService
         IEnumerable<SelectListItem> GetAuthors();
 
 
-        bool AddAuthor(AuthorViewModel authors);
-
-        bool DeleteAuthor(int Id);
-
-
-        bool UpdateAuthor(AuthorViewModel authors);
-
-
-        IEnumerable<AuthorViewModel> SearchAuthor(string keyword = null, int page = 0, int size = 10);
+       
         
 
     }

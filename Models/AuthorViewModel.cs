@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,8 +9,11 @@ namespace DemoMvc.Models
 {
     public class AuthorViewModel
     {
-
+        
         public int Id { get; set; }
+
+        [DisplayName("Tên tác giả")]
+        [Required]
         public string Name { get; set; }
 
     }
