@@ -49,7 +49,7 @@ namespace MVCWebsite.Models
             var bookQuery = bookEntities.Author.AsQueryable();
             if (keyword != null)
             {
-                bookQuery.Where(x => x.Name.Contains(keyword));
+                bookQuery = bookQuery.Where(x => x.Name.Contains(keyword));
             }
             return bookQuery.Select(x => new AuthorViewModel()
             {

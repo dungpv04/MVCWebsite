@@ -21,7 +21,12 @@ namespace DemoMvc.Controllers
         public ActionResult Index()
         {
             var result = bookService.SearchBook();
-            return View(result);
+            var model = new BookListingViewModel()
+            {
+                keyword = string.Empty,
+                listing = result
+            };
+            return View(model);
         }
 
         public ActionResult Create()
@@ -33,7 +38,8 @@ namespace DemoMvc.Controllers
         {
             bookService.AddBook(book);
             var result = bookService.SearchBook();
-            return View("Index", result);
+            var model = new BookListingViewModel() { listing = result };
+            return View("Index", model);
         }
 
         public ActionResult Edit(int id)
@@ -47,14 +53,29 @@ namespace DemoMvc.Controllers
         {
             bookService.UpdateBook(book);
             var result = bookService.SearchBook();
-            return View("Index", result);
+            var model = new BookListingViewModel { listing = result };
+            return View("Index", model);
         }
 
         public ActionResult Delete(int id)
         {
             bookService.DeleteBook(id);
             var result = bookService.SearchBook();
-            return View("Index",result);
+            var model = new BookListingViewModel { listing = result };
+            return View("Index",model);
         }
+
+        public ActionResult Search(string keyword)
+        {
+
+            var result = bookService.SearchBook(keyword);
+            var model = new BookListingViewModel() 
+            {
+                keyword = keyword,
+                listing = result
+            };
+            return View("Index", model);
+        }
+        
     }
 }

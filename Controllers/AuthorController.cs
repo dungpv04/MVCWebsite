@@ -16,12 +16,17 @@ namespace MVCWebsite.Controllers
         public AuthorController (IAuthorService _authorService)
         {
             authorService = _authorService;
-            
+
         }
+        
         public ActionResult Index()
         {
             var result = authorService.SearchAuthor();
-            return View(result);
+            var model = new AuthorListingViewModel() {
+                Keyword = string.Empty,
+                Listing = result
+            };
+            return View(model);
         }
         public ActionResult Create()
         {
@@ -31,7 +36,8 @@ namespace MVCWebsite.Controllers
         {
             authorService.AddAuthor(author);
             var result = authorService.SearchAuthor();
-            return View("Index", result);
+            var model = new AuthorListingViewModel() { Listing = result };
+            return View("Index", model);
         }
         public ActionResult Edit(int id)
         {
@@ -42,13 +48,28 @@ namespace MVCWebsite.Controllers
         {
             authorService.UpdateAuthor(authors);
             var result = authorService.SearchAuthor();
-            return View("Index",result);
+            var model = new AuthorListingViewModel() { Listing = result };
+            return View("Index",model);
         }
         public ActionResult Delete(int id)
         {
             authorService.DeleteAuthor(id);
             var result = authorService.SearchAuthor();
-            return View("Index", result);
+            var model = new AuthorListingViewModel() { Listing = result };
+            return View("Index", model);
+        }
+
+        public ActionResult Search(string keyword) 
+        {
+            
+            var result = authorService.SearchAuthor(keyword);
+            var model = new AuthorListingViewModel()
+            {
+                Keyword = keyword,
+                Listing = result
+            };
+            return View("Index", model);
+
         }
     }
 }

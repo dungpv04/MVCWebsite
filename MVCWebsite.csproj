@@ -316,8 +316,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthorListingViewModel.cs" />
     <Compile Include="Models\AuthorService.cs" />
     <Compile Include="Models\AuthorViewModel.cs" />
+    <Compile Include="Models\BookListingViewModel.cs" />
     <Compile Include="Models\IAuthorService.cs" />
     <Compile Include="Models\IBookService.cs" />
     <Compile Include="Models\BookService.cs" />

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DemoMvc.Models.BookViewModel>
+﻿@model DemoMvc.Models.BookListingViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -6,27 +6,36 @@
 
 <h2>Thư viện sách</h2>
 
+@using(Html.BeginForm("Search", "Book"))
+ {
+
+    @Html.TextBoxFor(model => model.keyword)
+    @Html.ValidationMessageFor(model => model.keyword)
+    <button type="submit">Tìm kiếm</button>
+
+ }
+
 <p>
     @Html.ActionLink("Thêm sách", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Content)
+            Content
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AuthorId)
+            Author ID
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AuthorName)
+            Author Name
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.listing) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)

@@ -63,7 +63,7 @@ namespace MVCDemoService
             var bookQuery = bookEntities.Book.AsQueryable();
             if (keyword != null)
             {
-                bookQuery.Where(x => x.Content.Contains(keyword) || x.Name.Contains(keyword) || (x.Author != null && x.Author.Name.Contains(keyword)));
+                bookQuery = bookQuery.Where(x => x.Content.Contains(keyword) || x.Name.Contains(keyword) || (x.Author != null && x.Author.Name.Contains(keyword)));
             }
             return bookQuery.Select(x=> new BookViewModel()
             {

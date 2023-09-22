@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DemoMvc.Models.AuthorViewModel>
+﻿@model  DemoMvc.Models.AuthorListingViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -9,27 +9,36 @@
 <p>
     @Html.ActionLink("Thêm tác giả", "Create")
 </p>
+
+@using (Html.BeginForm("Search", "Author"))
+{
+    @Html.TextBoxFor(model => model.Keyword);
+    @Html.ValidationMessageFor(model => model.Keyword)
+    <button type="submit">Tìm kiếm</button>
+}
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Id)
-            @Html.DisplayNameFor(model => model.Name)
+            Name
         </th>
-        <th></th>
+        <th>
+            Action
+        </th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Chỉnh sửa", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Chi tiết", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Xóa", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    
+    @foreach (var item in Model.Listing)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
