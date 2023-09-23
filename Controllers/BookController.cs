@@ -128,17 +128,56 @@ namespace DemoMvc.Controllers
             return View("Index",model);
         }
 
-        public ActionResult Search(string keyword)
+        public ActionResult Search(string Keyword)
         {
-
-            var result = bookService.SearchBook(keyword);
+            int Page = 0;
+            var result = bookService.SearchBook(Keyword, Page, 3);
             var model = new BookListingViewModel() 
             {
-                Keyword = keyword,
+                Page = Page,
+                Pager = Page + 1,
+                Keyword = Keyword,
                 Listing = result
             };
-            return View("Index", model);
+            return View("Search", model);
         }
-        
+
+        public ActionResult PrevSearch(int Page, string Keyword)
+        {
+
+            if (Page > 0) Page--;
+            var result = bookService.SearchBook(Keyword, Page, 3);
+            var model = new BookListingViewModel()
+            {
+                Page = Page,
+                Pager = Page + 1,
+                Keyword = Keyword,
+                Listing = result
+            };
+            return View("Search", model);
+        }
+
+        public ActionResult NextSearch(int Page, string Keyword)
+        {
+
+            var countQuery = bookEntities.Book.Where(book => book.Name.Contains(Keyword)).Count();
+
+
+            if (countQuery % 3 != 0) countQuery = countQuery / 3;
+
+            else if (countQuery % 3 == 0) countQuery = countQuery / 3 - 1;
+
+            if (Page < countQuery) Page++;
+            var result = bookService.SearchBook(Keyword, Page, 3);
+            var model = new BookListingViewModel()
+            {
+                Page = Page,
+                Pager = Page + 1,
+                Keyword = Keyword,
+                Listing = result
+            };
+            return View("Search", model);
+        }
+
     }
 }

@@ -33,6 +33,12 @@
 
 </table>
 
-@Html.ActionLink("Prev", "PrevSearch", new { Page = Model.Page } ,new {Keyword = Model.Keyword})
-@Html.DisplayFor(model => model.Pager)
-@Html.ActionLink("Next", "NextSearch", new { Page = Model.Page }, new {Keyword = Model.Keyword})
+@Html.ActionLink("Prev", "PrevSearch", new { Page = Model.Page, Keyword = Model.Keyword })
+@Html.DisplayFor(Model => Model.Pager)
+@Html.ActionLink("Next", "NextSearch", new { Page = Model.Page, Keyword = Model.Keyword })
+
+<br />
+
+<div>
+    @Html.ActionLink("Quay về danh sách", "Index")
+</div>
