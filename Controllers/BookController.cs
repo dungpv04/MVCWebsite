@@ -160,7 +160,7 @@ namespace DemoMvc.Controllers
         public ActionResult NextSearch(int Page, string Keyword)
         {
 
-            var countQuery = bookEntities.Book.Where(book => book.Name.Contains(Keyword)).Count();
+            var countQuery = bookService.SearchBook(Keyword).Count();
 
 
             if (countQuery % 3 != 0) countQuery = countQuery / 3;

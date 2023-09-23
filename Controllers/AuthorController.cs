@@ -150,7 +150,7 @@ namespace MVCWebsite.Controllers
         public ActionResult NextSearch(int Page, string Keyword)
         {
 
-            var countQuery = bookEntities.Author.Where(Author => Author.Name.Contains(Keyword)).Count();
+            var countQuery = authorService.SearchAuthor(Keyword).Count();
 
 
             if (countQuery % 3 != 0) countQuery = countQuery / 3;
