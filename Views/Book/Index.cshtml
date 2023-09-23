@@ -6,14 +6,14 @@
 
 <h2>Thư viện sách</h2>
 
-@using(Html.BeginForm("Search", "Book"))
- {
+@using (Html.BeginForm("Search", "Book"))
+{
 
-    @Html.TextBoxFor(model => model.keyword)
-    @Html.ValidationMessageFor(model => model.keyword)
+    @Html.TextBoxFor(model => model.Keyword)
+    @Html.ValidationMessageFor(model => model.Keyword)
     <button type="submit">Tìm kiếm</button>
 
- }
+}
 
 <p>
     @Html.ActionLink("Thêm sách", "Create")
@@ -35,26 +35,31 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model.listing) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AuthorId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AuthorName)
-        </td>
-        <td>
-            @Html.ActionLink("Chỉnh sửa", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Chi tiết", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Xóa", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.Listing)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorName)
+            </td>
+            <td>
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+
+@Html.ActionLink("Prev", "Prev", new { Page = Model.Page })
+@Html.DisplayFor(model => model.Pager)
+@Html.ActionLink("Next", "Next", new { Page = Model.Page })

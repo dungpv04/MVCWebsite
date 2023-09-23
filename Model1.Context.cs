@@ -32,5 +32,7 @@ namespace MVCWebsite
         public System.Data.Entity.DbSet<DemoMvc.Models.AuthorViewModel> AuthorViewModels { get; set; }
 
         //public System.Data.Entity.DbSet<DemoMvc.Models.AuthorViewModel> AuthorViewModels { get; set; }
+
+        //public System.Data.Entity.DbSet<DemoMvc.Models.AuthorViewModel> AuthorViewModels { get; set; }
     }
 }

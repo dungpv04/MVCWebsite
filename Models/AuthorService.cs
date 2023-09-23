@@ -44,7 +44,7 @@ namespace MVCWebsite.Models
             return bookEntities.SaveChanges() > 1;
         }
 
-        public IEnumerable<AuthorViewModel> SearchAuthor(string keyword = null, int page = 1, int size = 3)
+        public IEnumerable<AuthorViewModel> SearchAuthor(string keyword = null, int page = 0, int size = 3)
         {
             var bookQuery = bookEntities.Author.AsQueryable();
             if (keyword != null)

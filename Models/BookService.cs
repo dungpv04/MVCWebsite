@@ -58,7 +58,7 @@ namespace MVCDemoService
             return b;
         }
 
-        public IEnumerable<BookViewModel> SearchBook(string keyword = null, int page = 0, int size = 10)
+        public IEnumerable<BookViewModel> SearchBook(string keyword = null, int page = 0, int size = 3)
         {
             var bookQuery = bookEntities.Book.AsQueryable();
             if (keyword != null)

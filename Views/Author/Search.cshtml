@@ -1,21 +1,11 @@
-﻿@model  DemoMvc.Models.AuthorListingViewModel
+﻿@model DemoMvc.Models.AuthorListingViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Search";
 }
 
-<h2>Danh sách tác giả</h2>
+<h2>Kết quả tìm kiếm cho "@Html.DisplayFor(Model => Model.Keyword)"</h2>
 
-<p>
-    @Html.ActionLink("Thêm tác giả", "Create")
-</p>
-
-@using (Html.BeginForm("Search", "Author"))
-{
-    @Html.TextBoxFor(model => model.Keyword);
-    @Html.ValidationMessageFor(model => model.Keyword)
-    <button type="submit">Tìm kiếm</button>
-}
 
 <table class="table">
     <tr>
@@ -43,6 +33,6 @@
 
 </table>
 
-@Html.ActionLink("Prev", "Prev", new {Page = Model.Page})
+@Html.ActionLink("Prev", "PrevSearch", new { Page = Model.Page } ,new {Keyword = Model.Keyword})
 @Html.DisplayFor(model => model.Pager)
-@Html.ActionLink("Next", "Next", new {Page = Model.Page})
+@Html.ActionLink("Next", "NextSearch", new { Page = Model.Page }, new {Keyword = Model.Keyword})
