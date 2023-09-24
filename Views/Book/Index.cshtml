@@ -20,17 +20,32 @@
 </p>
 <table class="table">
     <tr>
+        
+        <th>
+            Id
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "IdAsc", Page = Model.Page})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "IdDesc", Page = Model.Page})' " />
+        </th>
+
         <th>
             Name
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "NameAsc", Page = Model.Page})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "NameDesc", Page = Model.Page})' " />
         </th>
         <th>
             Content
-        </th>
-        <th>
-            Author ID
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "ContentAsc", Page = Model.Page})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "ContentDesc", Page = Model.Page})' " />
         </th>
         <th>
             Author Name
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorNameAsc", Page = Model.Page})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorNameDesc", Page = Model.Page})' " />
+        </th>
+        <th>
+            Author ID
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorIdAsc", Page = Model.Page})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorIdDesc", Page = Model.Page})' " />
         </th>
         <th></th>
     </tr>
@@ -38,6 +53,11 @@
     @foreach (var item in Model.Listing)
     {
         <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -45,10 +65,10 @@
                 @Html.DisplayFor(modelItem => item.Content)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AuthorId)
+                @Html.DisplayFor(modelItem => item.AuthorName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AuthorName)
+                @Html.DisplayFor(modelItem => item.AuthorId)
             </td>
             <td>
                 @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
@@ -60,6 +80,6 @@
 
 </table>
 
-@Html.ActionLink("Prev", "Prev", new { Page = Model.Page })
+@Html.ActionLink("Prev", "Prev", new { Page = Model.Page, sortRequest = Model.sortRequest })
 @Html.DisplayFor(model => model.Pager)
-@Html.ActionLink("Next", "Next", new { Page = Model.Page })
+@Html.ActionLink("Next", "Next", new { Page = Model.Page, sortRequest = Model.sortRequest })

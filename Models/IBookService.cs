@@ -24,7 +24,7 @@ namespace MVCDemoService
 
         BookViewModel GetBook(int id);
 
-        IEnumerable<BookViewModel> SearchBook(string keyword = null, int page = 0, int size = 10);
+        IEnumerable<BookViewModel> SearchBook(string keyword = null, int page = 0, int size = 3, string sortRequest = null);
 
 
         IEnumerable<SelectListItem> GetAuthors();

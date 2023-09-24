@@ -44,18 +44,41 @@ namespace MVCWebsite.Models
             return bookEntities.SaveChanges() > 1;
         }
 
-        public IEnumerable<AuthorViewModel> SearchAuthor(string keyword = null, int page = 0, int size = 3)
+        public IEnumerable<AuthorViewModel> SearchAuthor(string keyword = null, int page = 0, int size = 3, string sortRequest = null)
         {
             var bookQuery = bookEntities.Author.AsQueryable();
             if (keyword != null)
             {
                 bookQuery = bookQuery.Where(x => x.Name.Contains(keyword));
             }
-            return bookQuery.Select(x => new AuthorViewModel()
+
+            IEnumerable<AuthorViewModel> result = bookQuery.Select(x => new AuthorViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
-            }).OrderBy(x => x.Name).Skip(page * size).Take(size).ToList();
+            });
+
+            switch(sortRequest)
+            {
+                case "Name":
+                    result = result.OrderByDescending(x => x.Name).Skip(size * page).Take(size); 
+                    break;
+
+                case "IdAsc":
+                    result = result.OrderBy(x => x.Id).Skip(size * page).Take(size);
+                    break;
+
+                case "IdDesc":
+                    result = result.OrderByDescending(x => x.Id).Skip(size * page).Take(size);
+                    break;
+                    
+                default:
+                    result = result.OrderBy(x => x.Name).Skip(size * page).Take(size);
+                    break;
+            }
+            
+            return result.ToList();
+
         }
         public AuthorViewModel GetAuthor(int id)
         {

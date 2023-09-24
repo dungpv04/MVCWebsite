@@ -23,12 +23,13 @@ namespace DemoMvc.Controllers
             bookEntities = _bookEntities;
             authors = bookService.GetAuthors();
         }
-        public ActionResult Index()
+        public ActionResult Index(string sortRequest, int Page = 0)
         {
-            int Page = 0;
-            var result = bookService.SearchBook(null, 0, 3);
+            
+            var result = bookService.SearchBook(null, Page, 3, sortRequest);
             var model = new BookListingViewModel()
             {
+                sortRequest = sortRequest,
                 Page = Page,
                 Pager = Page + 1,
                 Keyword = string.Empty,
@@ -37,13 +38,14 @@ namespace DemoMvc.Controllers
             return View(model);
         }
 
-        public ActionResult Prev(int Page)
+        public ActionResult Prev(int Page, string sortRequest)
         {
 
             if (Page > 0) Page--;
-            var result = bookService.SearchBook(null, Page, 3);
+            var result = bookService.SearchBook(null, Page, 3, sortRequest);
             var model = new BookListingViewModel()
             {
+                sortRequest= sortRequest,
                 Page = Page,
                 Pager = Page + 1,
                 Keyword = string.Empty,
@@ -52,7 +54,7 @@ namespace DemoMvc.Controllers
             return View("Index", model);
         }
 
-        public ActionResult Next(int Page)
+        public ActionResult Next(int Page, string sortRequest)
         {
 
             var countQuery = bookEntities.Book.Count();
@@ -63,9 +65,10 @@ namespace DemoMvc.Controllers
             else if (countQuery % 3 == 0) countQuery = countQuery / 3 - 1;
 
             if (Page < countQuery) Page++;
-            var result = bookService.SearchBook(null, Page, 3);
+            var result = bookService.SearchBook(null, Page, 3, sortRequest);
             var model = new BookListingViewModel()
             {
+                sortRequest= sortRequest,
                 Page = Page,
                 Pager = Page + 1,
                 Keyword = string.Empty,

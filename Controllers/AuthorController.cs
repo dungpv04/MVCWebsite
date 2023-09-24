@@ -21,11 +21,13 @@ namespace MVCWebsite.Controllers
             bookEntities = _bookEntities;
         }
         
-        public ActionResult Index()
+        public ActionResult Index(string sortRequest, int Page = 0)
         {
-            int Page = 0;
-            var result = authorService.SearchAuthor(null, Page, 3);
+            
+            
+            var result = authorService.SearchAuthor(null, Page, 3, sortRequest);
             var model = new AuthorListingViewModel() {
+                sortRequest = sortRequest,
                 Page = Page,
                 Pager = Page + 1,
                 Listing = result
@@ -33,13 +35,14 @@ namespace MVCWebsite.Controllers
             return View(model);
         }
 
-        public ActionResult Prev(int Page)
+        public ActionResult Prev(int Page, string sortRequest)
         {
             
             if (Page > 0) Page--;
-            var result = authorService.SearchAuthor(null, Page, 3);
+            var result = authorService.SearchAuthor(null, Page, 3, sortRequest);
             var model = new AuthorListingViewModel()
             {
+                sortRequest = sortRequest,
                 Page = Page,
                 Pager = Page + 1,
                 Listing = result
@@ -47,7 +50,7 @@ namespace MVCWebsite.Controllers
             return View("Index",model);
         }
 
-        public ActionResult Next(int Page)
+        public ActionResult Next(int Page, string sortRequest)
         {
 
             var countQuery = bookEntities.Author.Count();
@@ -58,9 +61,10 @@ namespace MVCWebsite.Controllers
             else if(countQuery % 3 == 0) countQuery = countQuery/ 3 - 1;
 
             if (Page < countQuery) Page++;
-            var result = authorService.SearchAuthor(null, Page, 3);
+            var result = authorService.SearchAuthor(null, Page, 3, sortRequest);
             var model = new AuthorListingViewModel()
             {
+                sortRequest = sortRequest,
                 Page = Page,
                 Pager = Page + 1,
                 Listing = result
@@ -169,6 +173,30 @@ namespace MVCWebsite.Controllers
             return View("Search", model);
         }
 
+        public ActionResult Ascending()
+        {
+            var result = authorService.SearchAuthor(null, 0, 3).OrderBy(author => author.Name);
+            var model = new AuthorListingViewModel()
+            {
+                Page = 0,
+                Pager = 1,
+                Keyword = string.Empty,
+                Listing = result
+            };
+            return View("Index", model);
+        }
+        public ActionResult Descending()
+        {
+            var result = authorService.SearchAuthor(null, 0, 3).OrderByDescending(author => author.Name);
+            var model = new AuthorListingViewModel()
+            {
+                Page = 0,
+                Pager = 1,
+                Keyword = string.Empty,
+                Listing = result
+            };
+            return View("Index", model);
+        }
 
     }
 }

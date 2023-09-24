@@ -16,7 +16,7 @@ namespace MVCWebsite.Models
         AuthorViewModel GetAuthor(int Id);
 
 
-        IEnumerable<AuthorViewModel> SearchAuthor(string keyword = null, int page = 0, int size = 10);
+        IEnumerable<AuthorViewModel> SearchAuthor(string keyword = null, int page = 0, int size = 10, string sortRequest = "Ascending");
         
     }
 }

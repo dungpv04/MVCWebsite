@@ -20,7 +20,14 @@
 <table class="table">
     <tr>
         <th>
+            Id
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Author", new {Page = Model.Page, sortRequest = "IdAsc"})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Author", new {Page = Model.Page, sortRequest = "IdDesc"})' " />
+        </th>
+        <th>
             Name
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Author", new {sortRequest = ""})' "/>
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Author", new {sortRequest = "Name"})' "/>
         </th>
         <th>
             Action
@@ -30,6 +37,9 @@
     @foreach (var item in Model.Listing)
     {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -43,6 +53,6 @@
 
 </table>
 
-@Html.ActionLink("Prev", "Prev", new {Page = Model.Page})
+@Html.ActionLink("Prev", "Prev", new {Page = Model.Page, sortRequest = Model.sortRequest})
 @Html.DisplayFor(model => model.Pager)
-@Html.ActionLink("Next", "Next", new {Page = Model.Page})
+@Html.ActionLink("Next", "Next", new {Page = Model.Page, sortRequest = Model.sortRequest})

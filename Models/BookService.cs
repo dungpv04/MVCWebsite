@@ -13,6 +13,7 @@ namespace MVCDemoService
     {
         private IBookEntities bookEntities;
         
+        
 
         public BookService(IBookEntities _bookEntities)
         {
@@ -58,21 +59,67 @@ namespace MVCDemoService
             return b;
         }
 
-        public IEnumerable<BookViewModel> SearchBook(string keyword = null, int page = 0, int size = 3)
+        public IEnumerable<BookViewModel> SearchBook(string keyword = null, int page = 0, int size = 3, string sortRequest = null)
         {
             var bookQuery = bookEntities.Book.AsQueryable();
             if (keyword != null)
             {
                 bookQuery = bookQuery.Where(x => x.Content.Contains(keyword) || x.Name.Contains(keyword) || (x.Author != null && x.Author.Name.Contains(keyword)));
             }
-            return bookQuery.Select(x=> new BookViewModel()
+
+            IEnumerable<BookViewModel> result = bookQuery.Select(x => new BookViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
                 Content = x.Content,
-                AuthorId=x.AuthorId,
-                AuthorName = x.Author!=null ? x.Author.Name : null,
-            }).OrderBy(x=>x.Name).Skip(page * size).Take(size).ToList();
+                AuthorId = x.AuthorId,
+                AuthorName = x.Author.Name != null ? x.Author.Name : null,
+            });
+
+            switch (sortRequest)
+            {
+                case "Name":
+                    result = result.OrderByDescending(x => x.Name).Skip(size * page).Take(size);
+                    break;
+
+                case "IdAsc":
+                    result = result.OrderBy(x => x.Id).Skip(size * page).Take(size);
+                    break;
+
+                case "IdDesc":
+                    result = result.OrderByDescending(x => x.Id).Skip(size * page).Take(size);
+                    break;
+
+                case "ContentAsc":
+                    result = result.OrderBy(x => x.Content).Skip(size * page).Take(size);
+                    break;
+
+                case "ContentDesc":
+                    result = result.OrderByDescending(x => x.Content).Skip(size * page).Take(size);
+                    break;
+
+                case "AuthorNameAsc":
+                    result = result.OrderBy(x => x.AuthorName).Skip(size * page).Take(size);
+                    break;
+
+                case "AuthorNameDesc":
+                    result = result.OrderByDescending(x => x.AuthorName).Skip(size * page).Take(size);
+                    break;
+
+                case "AuthorIdAsc":
+                    result = result.OrderBy(x => x.AuthorId).Skip(size * page).Take(size);
+                    break;
+
+                case "AuthorIdDesc":
+                    result = result.OrderByDescending(x => x.AuthorId).Skip(size * page).Take(size);
+                    break;
+
+                default:
+                    result = result.OrderBy(x => x.Name).Skip(size * page).Take(size);
+                    break;
+            }
+
+            return result.ToList();
         }
 
         public IEnumerable<SelectListItem> GetAuthors()
