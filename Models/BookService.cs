@@ -1,11 +1,9 @@
-﻿using DemoMvc;
-using DemoMvc.Models;
+﻿using DemoMvc.Models;
 using MVCWebsite;
 using MVCWebsite.Desgin_Parttern;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Xml.Linq;
 
 namespace MVCDemoService
 {
