@@ -12,15 +12,16 @@
     @Html.TextBoxFor(model => model.Keyword)
     @Html.ValidationMessageFor(model => model.Keyword)
     <button type="submit">Tìm kiếm</button>
-
 }
+
+
 
 <p>
     @Html.ActionLink("Thêm sách", "Create")
 </p>
 <table class="table">
     <tr>
-        
+
         <th>
             Id
             <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "IdAsc", Page = Model.Page})' " />
@@ -80,6 +81,28 @@
 
 </table>
 
-@Html.ActionLink("Prev", "Prev", new { Page = Model.Page, sortRequest = Model.sortRequest })
-@Html.DisplayFor(model => model.Pager)
-@Html.ActionLink("Next", "Next", new { Page = Model.Page, sortRequest = Model.sortRequest })
+@if (Session["BookSearch"].ToString() == "")
+{
+
+
+    @Html.ActionLink("Prev", "Prev", new { Page = Model.Page, sortRequest = Model.sortRequest })
+    @Html.DisplayFor(model => model.Pager)
+    @Html.ActionLink("Next", "Next", new { Page = Model.Page, sortRequest = Model.sortRequest })
+
+}
+
+else
+{
+
+    @Html.ActionLink("Prev", "PrevSearch", new { Page = Model.Page, Keyword = Model.Keyword })
+    @Html.DisplayFor(model => model.Pager)
+    @Html.ActionLink("Next", "NextSearch", new { Page = Model.Page, Keyword = Model.Keyword })
+    <div>
+        @Html.ActionLink("Quay về danh sách", "Index")
+    </div>
+}
+
+
+
+
+

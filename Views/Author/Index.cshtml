@@ -26,8 +26,8 @@
         </th>
         <th>
             Name
-            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Author", new {sortRequest = ""})' "/>
-            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Author", new {sortRequest = "Name"})' "/>
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Author", new {sortRequest = ""})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Author", new {sortRequest = "Name"})' " />
         </th>
         <th>
             Action
@@ -52,7 +52,20 @@
     }
 
 </table>
+@if (Session["AuthorSearch"].ToString() == "")
+{
+    @Html.ActionLink("Prev", "Prev", new { Page = Model.Page, sortRequest = Model.sortRequest })
+    @Html.DisplayFor(model => model.Pager)
+    @Html.ActionLink("Next", "Next", new { Page = Model.Page, sortRequest = Model.sortRequest })
+}
+else
+{
+    @Html.ActionLink("Prev", "PrevSearch", new { Page = Model.Page, Keyword = Model.Keyword })
+    @Html.DisplayFor(model => model.Pager)
+    @Html.ActionLink("Next", "NextSearch", new { Page = Model.Page, Keyword = Model.Keyword })
 
-@Html.ActionLink("Prev", "Prev", new {Page = Model.Page, sortRequest = Model.sortRequest})
-@Html.DisplayFor(model => model.Pager)
-@Html.ActionLink("Next", "Next", new {Page = Model.Page, sortRequest = Model.sortRequest})
+    <div>
+        @Html.ActionLink("Quay về danh sách", "Index")
+    </div>
+}
+

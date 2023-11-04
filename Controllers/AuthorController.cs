@@ -32,6 +32,7 @@ namespace MVCWebsite.Controllers
                 Pager = Page + 1,
                 Listing = result
             };
+            Session["AuthorSearch"] = "";
             return View(model);
         }
 
@@ -132,8 +133,9 @@ namespace MVCWebsite.Controllers
                 Keyword = Keyword,
                 Listing = result
             };
-            return View("Search", model);
-
+            Session["AuthorSearch"] = Keyword;
+            return View("Index", model);
+            
         }
 
         public ActionResult PrevSearch(int Page, string Keyword)
@@ -148,7 +150,7 @@ namespace MVCWebsite.Controllers
                 Keyword = Keyword,
                 Listing = result
             };
-            return View("Search", model);
+            return View("Index", model);
         }
 
         public ActionResult NextSearch(int Page, string Keyword)
@@ -170,7 +172,7 @@ namespace MVCWebsite.Controllers
                 Keyword = Keyword,
                 Listing = result
             };
-            return View("Search", model);
+            return View("Index", model);
         }
 
         public ActionResult Ascending()

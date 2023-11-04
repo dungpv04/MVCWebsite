@@ -76,7 +76,7 @@ namespace MVCDemoService
 
             switch (sortRequest)
             {
-                case "Name":
+                case "NameDesc":
                     result = result.OrderByDescending(x => x.Name).Skip(size * page).Take(size);
                     break;
 

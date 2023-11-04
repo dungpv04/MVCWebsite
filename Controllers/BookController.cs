@@ -11,6 +11,7 @@ using MVCWebsite.Desgin_Parttern;
 
 namespace DemoMvc.Controllers
 {
+    
     public class BookController : Controller
     {
         // GET: Book
@@ -35,6 +36,7 @@ namespace DemoMvc.Controllers
                 Keyword = string.Empty,
                 Listing = result
             };
+            Session["BookSearch"] = "";
             return View(model);
         }
 
@@ -74,9 +76,8 @@ namespace DemoMvc.Controllers
                 Keyword = string.Empty,
                 Listing = result
             };
-            return View("Index", model);
+            return View("Index",model);
         }
-
         public ActionResult Create()
         {
             return View(new BookViewModel() { Authors = authors});
@@ -133,6 +134,7 @@ namespace DemoMvc.Controllers
 
         public ActionResult Search(string Keyword)
         {
+            Session["BookSearch"] = Keyword;
             int Page = 0;
             var result = bookService.SearchBook(Keyword, Page, 3);
             var model = new BookListingViewModel() 
@@ -142,7 +144,26 @@ namespace DemoMvc.Controllers
                 Keyword = Keyword,
                 Listing = result
             };
-            return View("Search", model);
+            
+            return View("Index", model);
+        }
+
+        public ActionResult Settitle(string Keyword)
+        {
+            Session["Title"] = Keyword;
+            HttpCookie cookie = new HttpCookie("Title", Keyword);
+            cookie.Expires = DateTime.Now.AddSeconds(30);
+            Response.Cookies.Add(cookie);
+            int Page = 0;
+            var result = bookService.SearchBook(Keyword, Page, 3);
+            var model = new BookListingViewModel()
+            {
+                Page = Page,
+                Pager = Page + 1,
+                Keyword = Keyword,
+                Listing = result
+            };
+            return View("Index", model);
         }
 
         public ActionResult PrevSearch(int Page, string Keyword)
@@ -157,7 +178,7 @@ namespace DemoMvc.Controllers
                 Keyword = Keyword,
                 Listing = result
             };
-            return View("Search", model);
+            return View("Index", model);
         }
 
         public ActionResult NextSearch(int Page, string Keyword)
@@ -179,7 +200,7 @@ namespace DemoMvc.Controllers
                 Keyword = Keyword,
                 Listing = result
             };
-            return View("Search", model);
+            return View("Index", model);
         }
 
     }
