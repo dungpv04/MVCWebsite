@@ -47,7 +47,7 @@ namespace MVCWebsite.Models
         public IEnumerable<AuthorViewModel> SearchAuthor(string keyword = null, int page = 0, int size = 3, string sortRequest = null)
         {
             var bookQuery = bookEntities.Author.AsQueryable();
-            if (keyword != null)
+            if (keyword != "" && keyword != null)
             {
                 bookQuery = bookQuery.Where(x => x.Name.Contains(keyword));
             }
@@ -60,7 +60,7 @@ namespace MVCWebsite.Models
 
             switch(sortRequest)
             {
-                case "Name":
+                case "NameDesc":
                     result = result.OrderByDescending(x => x.Name).Skip(size * page).Take(size); 
                     break;
 
@@ -89,5 +89,19 @@ namespace MVCWebsite.Models
             }).FirstOrDefault();
             return a;
         }
+
+        public int LastPageUpdate(string keyword = null)
+        {
+            int totalRecord;
+            int lastPage;
+            if(keyword != null) totalRecord = bookEntities.Author.Where(x => x.Name.Contains(keyword)).Count();
+            else totalRecord = bookEntities.Author.Count();
+            
+            if (totalRecord % 3 == 0) lastPage = totalRecord / 3 - 1;
+            else lastPage = totalRecord / 3;
+
+            return lastPage;
+        }
+
     }
 }

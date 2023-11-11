@@ -10,7 +10,7 @@
     @Html.ActionLink("Thêm tác giả", "Create")
 </p>
 
-@using (Html.BeginForm("Search", "Author"))
+@using (Html.BeginForm("Index", "Author"))
 {
     @Html.TextBoxFor(model => model.Keyword);
     @Html.ValidationMessageFor(model => model.Keyword)
@@ -21,13 +21,13 @@
     <tr>
         <th>
             Id
-            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Author", new {Page = Model.Page, sortRequest = "IdAsc"})' " />
-            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Author", new {Page = Model.Page, sortRequest = "IdDesc"})' " />
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Author", new {Page = Model.Page, sortRequest = "IdAsc", keyword = Model.Keyword})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Author", new {Page = Model.Page, sortRequest = "IdDesc", keyword = Model.Keyword})' " />
         </th>
         <th>
             Name
-            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Author", new {sortRequest = ""})' " />
-            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Author", new {sortRequest = "Name"})' " />
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Author", new {Page = Model.Page, sortRequest = "NameAsc", keyword = Model.Keyword})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Author", new {Page = Model.Page, sortRequest = "NameDesc", keyword = Model.Keyword})' " />
         </th>
         <th>
             Action
@@ -46,26 +46,30 @@
             <td>
                 @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Xóa", "Delete", new { id = item.Id })
+                @Html.ActionLink("Xóa", "Delete", new { id = item.Id, currentPage = Model.Page })
             </td>
         </tr>
     }
 
 </table>
-@if (Session["AuthorSearch"].ToString() == "")
-{
-    @Html.ActionLink("Prev", "Prev", new { Page = Model.Page, sortRequest = Model.sortRequest })
-    @Html.DisplayFor(model => model.Pager)
-    @Html.ActionLink("Next", "Next", new { Page = Model.Page, sortRequest = Model.sortRequest })
-}
-else
-{
-    @Html.ActionLink("Prev", "PrevSearch", new { Page = Model.Page, Keyword = Model.Keyword })
-    @Html.DisplayFor(model => model.Pager)
-    @Html.ActionLink("Next", "NextSearch", new { Page = Model.Page, Keyword = Model.Keyword })
 
+@Html.ActionLink("First Page", "Index", new { sortRequest = Model.sortRequest, Page = 0, keyword = Model.Keyword })
+<br />
+@Html.ActionLink("Prev", "Prev", new { Page = Model.Page, sortRequest = Model.sortRequest, keyword = Model.Keyword })
+@Html.DisplayFor(model => model.Pager)
+@Html.ActionLink("Next", "Next", new { Page = Model.Page, sortRequest = Model.sortRequest, keyword = Model.Keyword })
+<br />
+@Html.ActionLink("Last Page", "Index", new { sortRequest = Model.sortRequest, Page = Model.lastPage, keyword = Model.Keyword })
+
+<p>Total page: @Html.DisplayFor(model => model.totalPage)</p>
+
+@if (Model.Keyword != string.Empty && Model.Keyword != null) 
+{ 
     <div>
-        @Html.ActionLink("Quay về danh sách", "Index")
+        @Html.ActionLink("Quay về danh sách", "Index", new { Page = 0, keyword = "" })
     </div>
 }
+
+
+
 

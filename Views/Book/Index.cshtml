@@ -81,7 +81,7 @@
 
 </table>
 
-@if (Session["BookSearch"].ToString() == "")
+@if (Model.Keyword == string.Empty)
 {
 
 
@@ -97,6 +97,7 @@ else
     @Html.ActionLink("Prev", "PrevSearch", new { Page = Model.Page, Keyword = Model.Keyword })
     @Html.DisplayFor(model => model.Pager)
     @Html.ActionLink("Next", "NextSearch", new { Page = Model.Page, Keyword = Model.Keyword })
+
     <div>
         @Html.ActionLink("Quay về danh sách", "Index")
     </div>

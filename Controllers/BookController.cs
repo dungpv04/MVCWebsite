@@ -36,7 +36,6 @@ namespace DemoMvc.Controllers
                 Keyword = string.Empty,
                 Listing = result
             };
-            Session["BookSearch"] = "";
             return View(model);
         }
 
@@ -134,7 +133,6 @@ namespace DemoMvc.Controllers
 
         public ActionResult Search(string Keyword)
         {
-            Session["BookSearch"] = Keyword;
             int Page = 0;
             var result = bookService.SearchBook(Keyword, Page, 3);
             var model = new BookListingViewModel() 

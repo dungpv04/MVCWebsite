@@ -15,60 +15,67 @@ namespace MVCWebsite.Controllers
         // GET: Author
         private IAuthorService authorService;
         private IBookEntities bookEntities;
+        
         public AuthorController (IAuthorService _authorService, IBookEntities _bookEntities)
         {
             authorService = _authorService;
             bookEntities = _bookEntities;
         }
         
-        public ActionResult Index(string sortRequest, int Page = 0)
+        
+        public ActionResult Index(string sortRequest = "", int Page = 0, string keyword = null)
         {
             
+            var result = authorService.SearchAuthor(keyword, Page, 3, sortRequest);
             
-            var result = authorService.SearchAuthor(null, Page, 3, sortRequest);
             var model = new AuthorListingViewModel() {
                 sortRequest = sortRequest,
                 Page = Page,
                 Pager = Page + 1,
-                Listing = result
+                Listing = result,
+                Keyword = keyword,
+                lastPage = authorService.LastPageUpdate(keyword),
+                totalPage = authorService.LastPageUpdate(keyword) + 1
             };
-            Session["AuthorSearch"] = "";
+            
+            
             return View(model);
         }
 
-        public ActionResult Prev(int Page, string sortRequest)
+        public ActionResult Prev(int Page, string sortRequest, string keyword = null)
         {
             
             if (Page > 0) Page--;
-            var result = authorService.SearchAuthor(null, Page, 3, sortRequest);
+            var result = authorService.SearchAuthor(keyword, Page, 3, sortRequest);
             var model = new AuthorListingViewModel()
             {
                 sortRequest = sortRequest,
                 Page = Page,
                 Pager = Page + 1,
-                Listing = result
+                Listing = result,
+                Keyword = keyword,
+                lastPage = authorService.LastPageUpdate(keyword),
+                totalPage = authorService.LastPageUpdate(keyword) + 1
+
             };
             return View("Index",model);
         }
 
-        public ActionResult Next(int Page, string sortRequest)
+        public ActionResult Next(int Page, string sortRequest, string keyword = null)
         {
 
-            var countQuery = bookEntities.Author.Count();
-            
-
-            if (countQuery % 3 != 0) countQuery = countQuery/ 3;
-
-            else if(countQuery % 3 == 0) countQuery = countQuery/ 3 - 1;
-
-            if (Page < countQuery) Page++;
-            var result = authorService.SearchAuthor(null, Page, 3, sortRequest);
+            if (Page < authorService.LastPageUpdate(keyword)) Page++;
+            var result = authorService.SearchAuthor(keyword, Page, 3, sortRequest);
             var model = new AuthorListingViewModel()
             {
                 sortRequest = sortRequest,
                 Page = Page,
                 Pager = Page + 1,
-                Listing = result
+                Listing = result,
+                Keyword = keyword,
+                lastPage = authorService.LastPageUpdate(keyword),
+                totalPage = authorService.LastPageUpdate(keyword) + 1
+                
             };
             return View("Index",model);
         }
@@ -86,7 +93,9 @@ namespace MVCWebsite.Controllers
                 Page = 0,
                 Pager = 1,
                 Keyword = string.Empty,
-                Listing = result 
+                Listing = result,
+                lastPage = authorService.LastPageUpdate(),
+                totalPage = authorService.LastPageUpdate()+ 1
             };
             return View("Index", model);
         }
@@ -108,94 +117,18 @@ namespace MVCWebsite.Controllers
             };
             return View("Index",model);
         }
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, int currentPage)
         {
             authorService.DeleteAuthor(id);
-            var result = authorService.SearchAuthor(null, 0, 3);
+            var result = authorService.SearchAuthor(null, currentPage, 3);
             var model = new AuthorListingViewModel()
             {
-                Page = 0,
-                Pager = 1,
+                Page = currentPage,
+                Pager = currentPage + 1,
                 Keyword = string.Empty,
-                Listing = result
-            };
-            return View("Index", model);
-        }
-
-        public ActionResult Search(string Keyword) 
-        {
-            int Page = 0;
-            var result = authorService.SearchAuthor(Keyword, Page, 3);
-            var model = new AuthorListingViewModel()
-            {
-                Page = Page,
-                Pager = Page + 1,
-                Keyword = Keyword,
-                Listing = result
-            };
-            Session["AuthorSearch"] = Keyword;
-            return View("Index", model);
-            
-        }
-
-        public ActionResult PrevSearch(int Page, string Keyword)
-        {
-
-            if (Page > 0) Page--;
-            var result = authorService.SearchAuthor(Keyword, Page, 3);
-            var model = new AuthorListingViewModel()
-            {
-                Page = Page,
-                Pager = Page + 1,
-                Keyword = Keyword,
-                Listing = result
-            };
-            return View("Index", model);
-        }
-
-        public ActionResult NextSearch(int Page, string Keyword)
-        {
-
-            var countQuery = authorService.SearchAuthor(Keyword).Count();
-
-
-            if (countQuery % 3 != 0) countQuery = countQuery / 3;
-
-            else if (countQuery % 3 == 0) countQuery = countQuery / 3 - 1;
-
-            if (Page < countQuery) Page++;
-            var result = authorService.SearchAuthor(Keyword, Page, 3);
-            var model = new AuthorListingViewModel()
-            {
-                Page = Page,
-                Pager = Page + 1,
-                Keyword = Keyword,
-                Listing = result
-            };
-            return View("Index", model);
-        }
-
-        public ActionResult Ascending()
-        {
-            var result = authorService.SearchAuthor(null, 0, 3).OrderBy(author => author.Name);
-            var model = new AuthorListingViewModel()
-            {
-                Page = 0,
-                Pager = 1,
-                Keyword = string.Empty,
-                Listing = result
-            };
-            return View("Index", model);
-        }
-        public ActionResult Descending()
-        {
-            var result = authorService.SearchAuthor(null, 0, 3).OrderByDescending(author => author.Name);
-            var model = new AuthorListingViewModel()
-            {
-                Page = 0,
-                Pager = 1,
-                Keyword = string.Empty,
-                Listing = result
+                Listing = result,
+                lastPage = authorService.LastPageUpdate(),
+                totalPage = authorService.LastPageUpdate() + 1
             };
             return View("Index", model);
         }
