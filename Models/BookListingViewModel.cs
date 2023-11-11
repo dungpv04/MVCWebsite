@@ -12,6 +12,8 @@ namespace DemoMvc.Models
         public int Page {  get; set; }
         public int Pager { get; set; }
         public string Keyword {  get; set; }
+        public int lastPage;
+        public int totalPage;
         public IEnumerable<BookViewModel> Listing { get; set; }
     }
 }

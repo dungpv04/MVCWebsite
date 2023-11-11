@@ -6,7 +6,7 @@
 
 <h2>Thư viện sách</h2>
 
-@using (Html.BeginForm("Search", "Book"))
+@using (Html.BeginForm("Index", "Book"))
 {
 
     @Html.TextBoxFor(model => model.Keyword)
@@ -24,29 +24,29 @@
 
         <th>
             Id
-            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "IdAsc", Page = Model.Page})' " />
-            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "IdDesc", Page = Model.Page})' " />
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "IdAsc", Page = Model.Page, keyword = Model.Keyword})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "IdDesc", Page = Model.Page, keyword = Model.Keyword})' " />
         </th>
 
         <th>
             Name
-            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "NameAsc", Page = Model.Page})' " />
-            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "NameDesc", Page = Model.Page})' " />
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "NameAsc", Page = Model.Page, keyword = Model.Keyword})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "NameDesc", Page = Model.Page, keyword = Model.Keyword})' " />
         </th>
         <th>
             Content
-            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "ContentAsc", Page = Model.Page})' " />
-            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "ContentDesc", Page = Model.Page})' " />
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "ContentAsc", Page = Model.Page, keyword = Model.Keyword})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "ContentDesc", Page = Model.Page, keyword = Model.Keyword})' " />
         </th>
         <th>
             Author Name
-            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorNameAsc", Page = Model.Page})' " />
-            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorNameDesc", Page = Model.Page})' " />
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorNameAsc", Page = Model.Page, keyword = Model.Keyword})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorNameDesc", Page = Model.Page, keyword = Model.Keyword})' " />
         </th>
         <th>
             Author ID
-            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorIdAsc", Page = Model.Page})' " />
-            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorIdDesc", Page = Model.Page})' " />
+            <input type="button" value="⇧" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorIdAsc", Page = Model.Page, keyword = Model.Keyword})' " />
+            <input type="button" value="⇩" onclick=" location.href = '@Url.Action("Index", "Book", new {sortRequest = "AuthorIdDesc", Page = Model.Page, keyword = Model.Keyword})' " />
         </th>
         <th></th>
     </tr>
@@ -80,28 +80,24 @@
     }
 
 </table>
+@Html.ActionLink("First Page", "Index", new { sortRequest = Model.sortRequest, Page = 0, keyword = Model.Keyword })
+<br />
+@Html.ActionLink("Prev", "Prev", new { Page = Model.Page, sortRequest = Model.sortRequest, keyword = Model.Keyword })
+@Html.DisplayFor(model => model.Pager)
+@Html.ActionLink("Next", "Next", new { Page = Model.Page, sortRequest = Model.sortRequest, keyword = Model.Keyword })
+<br />
+@Html.ActionLink("Last Page", "Index", new { sortRequest = Model.sortRequest, Page = Model.lastPage, keyword = Model.Keyword })
 
-@if (Model.Keyword == string.Empty)
+<p>Total page: @Html.DisplayFor(model => model.totalPage)</p>
+
+@if (Model.Keyword != string.Empty && Model.Keyword != null)
 {
-
-
-    @Html.ActionLink("Prev", "Prev", new { Page = Model.Page, sortRequest = Model.sortRequest })
-    @Html.DisplayFor(model => model.Pager)
-    @Html.ActionLink("Next", "Next", new { Page = Model.Page, sortRequest = Model.sortRequest })
-
-}
-
-else
-{
-
-    @Html.ActionLink("Prev", "PrevSearch", new { Page = Model.Page, Keyword = Model.Keyword })
-    @Html.DisplayFor(model => model.Pager)
-    @Html.ActionLink("Next", "NextSearch", new { Page = Model.Page, Keyword = Model.Keyword })
-
     <div>
-        @Html.ActionLink("Quay về danh sách", "Index")
+        @Html.ActionLink("Quay về danh sách", "Index", new { Page = 0, keyword = "" })
     </div>
 }
+
+
 
 
 

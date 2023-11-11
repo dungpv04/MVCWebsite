@@ -24,56 +24,55 @@ namespace DemoMvc.Controllers
             bookEntities = _bookEntities;
             authors = bookService.GetAuthors();
         }
-        public ActionResult Index(string sortRequest, int Page = 0)
+        public ActionResult Index(string sortRequest, int Page = 0, string keyword = null)
         {
             
-            var result = bookService.SearchBook(null, Page, 3, sortRequest);
+            var result = bookService.SearchBook(keyword, Page, 3, sortRequest);
             var model = new BookListingViewModel()
             {
                 sortRequest = sortRequest,
                 Page = Page,
                 Pager = Page + 1,
-                Keyword = string.Empty,
-                Listing = result
+                Keyword = keyword,
+                Listing = result,
+                lastPage = bookService.LastPageUpdate(keyword),
+                totalPage = bookService.LastPageUpdate(keyword) + 1
             };
             return View(model);
         }
 
-        public ActionResult Prev(int Page, string sortRequest)
+        public ActionResult Prev(int Page, string sortRequest, string keyword = null)
         {
 
             if (Page > 0) Page--;
-            var result = bookService.SearchBook(null, Page, 3, sortRequest);
+            var result = bookService.SearchBook(keyword, Page, 3, sortRequest);
             var model = new BookListingViewModel()
             {
                 sortRequest= sortRequest,
                 Page = Page,
                 Pager = Page + 1,
-                Keyword = string.Empty,
-                Listing = result
+                Keyword = keyword,
+                Listing = result,
+                lastPage = bookService.LastPageUpdate(keyword),
+                totalPage = bookService.LastPageUpdate(keyword) + 1
             };
             return View("Index", model);
         }
 
-        public ActionResult Next(int Page, string sortRequest)
+        public ActionResult Next(int Page, string sortRequest, string keyword = null)
         {
 
-            var countQuery = bookEntities.Book.Count();
-
-
-            if (countQuery % 3 != 0) countQuery = countQuery / 3;
-
-            else if (countQuery % 3 == 0) countQuery = countQuery / 3 - 1;
-
-            if (Page < countQuery) Page++;
-            var result = bookService.SearchBook(null, Page, 3, sortRequest);
+            if (Page < bookService.LastPageUpdate(keyword)) Page++;
+            var result = bookService.SearchBook(keyword, Page, 3, sortRequest);
             var model = new BookListingViewModel()
             {
-                sortRequest= sortRequest,
+                sortRequest = sortRequest,
                 Page = Page,
                 Pager = Page + 1,
-                Keyword = string.Empty,
-                Listing = result
+                Keyword = keyword,
+                Listing = result,
+                lastPage = bookService.LastPageUpdate(keyword),
+                totalPage = bookService.LastPageUpdate(keyword) + 1
             };
             return View("Index",model);
         }
@@ -130,22 +129,6 @@ namespace DemoMvc.Controllers
             };
             return View("Index",model);
         }
-
-        public ActionResult Search(string Keyword)
-        {
-            int Page = 0;
-            var result = bookService.SearchBook(Keyword, Page, 3);
-            var model = new BookListingViewModel() 
-            {
-                Page = Page,
-                Pager = Page + 1,
-                Keyword = Keyword,
-                Listing = result
-            };
-            
-            return View("Index", model);
-        }
-
         public ActionResult Settitle(string Keyword)
         {
             Session["Title"] = Keyword;
@@ -153,43 +136,6 @@ namespace DemoMvc.Controllers
             cookie.Expires = DateTime.Now.AddSeconds(30);
             Response.Cookies.Add(cookie);
             int Page = 0;
-            var result = bookService.SearchBook(Keyword, Page, 3);
-            var model = new BookListingViewModel()
-            {
-                Page = Page,
-                Pager = Page + 1,
-                Keyword = Keyword,
-                Listing = result
-            };
-            return View("Index", model);
-        }
-
-        public ActionResult PrevSearch(int Page, string Keyword)
-        {
-
-            if (Page > 0) Page--;
-            var result = bookService.SearchBook(Keyword, Page, 3);
-            var model = new BookListingViewModel()
-            {
-                Page = Page,
-                Pager = Page + 1,
-                Keyword = Keyword,
-                Listing = result
-            };
-            return View("Index", model);
-        }
-
-        public ActionResult NextSearch(int Page, string Keyword)
-        {
-
-            var countQuery = bookService.SearchBook(Keyword).Count();
-
-
-            if (countQuery % 3 != 0) countQuery = countQuery / 3;
-
-            else if (countQuery % 3 == 0) countQuery = countQuery / 3 - 1;
-
-            if (Page < countQuery) Page++;
             var result = bookService.SearchBook(Keyword, Page, 3);
             var model = new BookListingViewModel()
             {

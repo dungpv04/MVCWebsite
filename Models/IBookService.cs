@@ -28,10 +28,12 @@ namespace MVCDemoService
 
 
         IEnumerable<SelectListItem> GetAuthors();
+        int LastPageUpdate(string keyword = null);
 
 
-       
-        
+
+
+
 
     }
 }

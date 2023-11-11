@@ -60,7 +60,7 @@ namespace MVCDemoService
         public IEnumerable<BookViewModel> SearchBook(string keyword = null, int page = 0, int size = 3, string sortRequest = null)
         {
             var bookQuery = bookEntities.Book.AsQueryable();
-            if (keyword != null)
+            if (keyword != "" && keyword != null)
             {
                 bookQuery = bookQuery.Where(x => x.Content.Contains(keyword) || x.Name.Contains(keyword) || (x.Author != null && x.Author.Name.Contains(keyword)));
             }
@@ -123,6 +123,19 @@ namespace MVCDemoService
         public IEnumerable<SelectListItem> GetAuthors()
         {
             return bookEntities.Author.ToList().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() });
+        }
+
+        public int LastPageUpdate(string keyword = null)
+        {
+            int totalRecord;
+            int lastPage;
+            if (keyword != null) totalRecord = bookEntities.Book.Where(x => x.Content.Contains(keyword) || x.Name.Contains(keyword) || (x.Author != null && x.Author.Name.Contains(keyword))).Count();
+            else totalRecord = bookEntities.Book.Count();
+
+            if (totalRecord % 3 == 0) lastPage = totalRecord / 3 - 1;
+            else lastPage = totalRecord / 3;
+
+            return lastPage;
         }
 
     }
