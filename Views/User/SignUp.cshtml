@@ -1,0 +1,53 @@
+﻿@model MVCWebsite.Models.RegisterModel
+@{
+    ViewBag.Title = "SignUp";
+}
+
+<h2>Đăng nhập</h2>
+
+@using (Html.BeginForm("SignUpSubmit", "User"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Tên người dùng", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } } )
+                @Html.ValidationMessageFor(model => model.username, null, new { @class = "text-danger"})
+            </div>
+            @Html.Label("Mật khẩu", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.password, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.password, null, new { @class = "text-danger" })
+            </div>
+            @Html.Label("Xác nhận mật khẩu", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.retypePassword, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.retypePassword, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Đăng ký" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@if (!Model.ifValid)
+{
+    <p style="color:red">Tài khoản đã tồn tại !</p>
+}
+
+@if (!Model.ifMatch)
+{
+    <p style="color:red">Mật khẩu không trùng khớp !</p>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

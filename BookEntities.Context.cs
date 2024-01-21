@@ -28,13 +28,8 @@ namespace MVCWebsite
     
         public virtual DbSet<Author> Author { get; set; }
         public virtual DbSet<Book> Book { get; set; }
-
-        public System.Data.Entity.DbSet<DemoMvc.Models.AuthorViewModel> AuthorViewModels { get; set; }
-
-        public System.Data.Entity.DbSet<DemoMvc.Models.BookViewModel> BookViewModels { get; set; }
-
-        //public System.Data.Entity.DbSet<DemoMvc.Models.AuthorViewModel> AuthorViewModels { get; set; }
-
-        //public System.Data.Entity.DbSet<DemoMvc.Models.AuthorViewModel> AuthorViewModels { get; set; }
+        public virtual DbSet<RoleMaster> RoleMaster { get; set; }
+        public virtual DbSet<UserInfor> UserInfor { get; set; }
+        public virtual DbSet<UserRolesMapping> UserRolesMapping { get; set; }
     }
 }

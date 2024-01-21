@@ -11,7 +11,7 @@ using MVCWebsite.Desgin_Parttern;
 
 namespace DemoMvc.Controllers
 {
-    
+    [Authorize(Roles = "User, Admin")]
     public class BookController : Controller
     {
         // GET: Book
@@ -76,11 +76,13 @@ namespace DemoMvc.Controllers
             };
             return View("Index",model);
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View(new BookViewModel() { Authors = authors});
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateSubmit(BookViewModel book)
         {
             bookService.AddBook(book);
@@ -90,11 +92,13 @@ namespace DemoMvc.Controllers
                 Page = 0,
                 Pager = 1,
                 Keyword = string.Empty,
-                Listing = result
+                Listing = result,
+                lastPage = bookService.LastPageUpdate(),
+                totalPage = bookService.LastPageUpdate() + 1
             };
             return View("Index", model);
         }
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             var book = bookService.GetBook(id);
@@ -102,6 +106,7 @@ namespace DemoMvc.Controllers
             return View(book);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult EditSubmit(BookViewModel book)
         {
             bookService.UpdateBook(book);
@@ -111,21 +116,26 @@ namespace DemoMvc.Controllers
                 Page = 0,
                 Pager = 1,
                 Keyword = string.Empty,
-                Listing = result
+                Listing = result,
+                lastPage = bookService.LastPageUpdate(),
+                totalPage = bookService.LastPageUpdate() + 1
             };
             return View("Index", model);
         }
 
-        public ActionResult Delete(int id)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(int id, int currentPage)
         {
             bookService.DeleteBook(id);
             var result = bookService.SearchBook(null, 0, 3);
             var model = new BookListingViewModel()
             {
-                Page = 0,
-                Pager = 1,
+                Page = currentPage,
+                Pager = currentPage + 1,
                 Keyword = string.Empty,
-                Listing = result
+                Listing = result,
+                lastPage = bookService.LastPageUpdate(),
+                totalPage = bookService.LastPageUpdate() + 1
             };
             return View("Index",model);
         }

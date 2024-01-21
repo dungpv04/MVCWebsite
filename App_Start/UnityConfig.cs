@@ -22,6 +22,8 @@ namespace MVCWebsite
             container.RegisterType<IBookEntities, BookEntities>();
             container.RegisterType<IBookService, BookService>();
             container.RegisterType<IAuthorService, AuthorService>();
+           // container.RegisterType<ILoginDataEntities, UserDataEntities>();
+            container.RegisterType<ILoginServices, LoginService>();
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace MVCWebsite.Controllers
 {
+    [Authorize(Roles = "User, Admin")]
     public class AuthorController : Controller
     {
         // GET: Author
@@ -80,10 +81,13 @@ namespace MVCWebsite.Controllers
             return View("Index",model);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View(new AuthorViewModel());
         }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateSubmit(AuthorViewModel author)
         {
             authorService.AddAuthor(author);
@@ -99,11 +103,15 @@ namespace MVCWebsite.Controllers
             };
             return View("Index", model);
         }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             var author = authorService.GetAuthor(id);
             return View(author);
         }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult EditSubmit(AuthorViewModel authors)
         {
             authorService.UpdateAuthor(authors);
@@ -113,10 +121,14 @@ namespace MVCWebsite.Controllers
                 Page = 0,
                 Pager = 1,
                 Keyword = string.Empty,
-                Listing = result
+                Listing = result,
+                lastPage = authorService.LastPageUpdate(),
+                totalPage = authorService.LastPageUpdate() + 1
             };
             return View("Index",model);
         }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id, int currentPage)
         {
             authorService.DeleteAuthor(id);

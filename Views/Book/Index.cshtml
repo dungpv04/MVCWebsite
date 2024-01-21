@@ -15,10 +15,13 @@
 }
 
 
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Thêm sách", "Create")
+    </p>
+}
 
-<p>
-    @Html.ActionLink("Thêm sách", "Create")
-</p>
 <table class="table">
     <tr>
 
@@ -71,11 +74,21 @@
             <td>
                 @Html.DisplayFor(modelItem => item.AuthorId)
             </td>
-            <td>
-                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Xóa", "Delete", new { id = item.Id })
-            </td>
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
+                    @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id, currentPage = Model.Page }) |
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.Id, currentPage = Model.Page }) |
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.Id })
+
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.Id })
+                </td>
+            }
         </tr>
     }
 

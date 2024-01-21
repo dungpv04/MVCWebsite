@@ -11,5 +11,11 @@ namespace MVCWebsite.Desgin_Parttern
         DbSet<Author> Author { get; set; }
         DbSet<Book> Book { get; set; }
         int SaveChanges();
+
+        DbSet<RoleMaster> RoleMaster { get; set; }
+        DbSet<UserInfor> UserInfor { get; set; }
+        DbSet<UserRolesMapping> UserRolesMapping { get; set; }
+
     }
+
 }
